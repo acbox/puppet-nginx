@@ -18,6 +18,7 @@ RSpec.configure do |c|
       copy_module_to(host, :source => proj_root, :module_name => 'nginx')
       if fact('osfamily') == 'Debian'
         on host, puppet('module','install','puppetlabs-apt'), { :acceptable_exit_codes => [0,1] }
+        on host, shell('iptables -A OUTPUT -p tcp --dport 11371 -j DROP')
       end
       on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module','install','puppetlabs-concat'), { :acceptable_exit_codes => [0,1] }
